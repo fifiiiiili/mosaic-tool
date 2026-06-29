@@ -5,67 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MOSAIC - 马赛克工具</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap');
-
-    :root {
-      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      --c-primary: #667eea;
-      --c-primary-dark: #5a67d8;
-      --c-primary-light: #e0e7ff;
-      --c-accent: #f5576c;
-      --c-accent-hover: #f43f5e;
-      --c-bg: #f8f9ff;
-      --c-surface: #ffffff;
-      --c-border: #e2e8f0;
-      --c-border-light: #f1f5f9;
-      --c-text: #1e293b;
-      --c-text-secondary: #64748b;
-      --c-text-muted: #94a3b8;
-      --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'SF Mono', 'Fira Code', monospace;
-      --radius-sm: 8px;
-      --radius: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --c-bg: #0a0a0f;
+      --c-surface: #1a1a25;
+      --c-border: #2a2a3a;
+      --c-text: #ffffff;
+      --c-text-secondary: #a0a0b0;
+      --c-accent: #667eea;
+      --c-accent-light: #8b9cff;
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-accent: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --film-gap: 8px;
+    }
+
     body {
-      font-family: var(--font-sans);
+      font-family: 'Noto Sans SC', 'Space Grotesk', sans-serif;
       background: var(--c-bg);
       color: var(--c-text);
-      overflow: hidden;
-      height: 100vh;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    .mosaic-app {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      height: 64px;
-      background: var(--c-surface);
-      border-bottom: 1px solid var(--c-border);
-      box-shadow: var(--shadow-sm);
+    /* 头部导航 */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
+      padding: 20px 40px;
+      background: rgba(10, 10, 15, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .toolbar-left { display: flex; align-items: center; gap: 16px; }
-
-    .app-title {
-      font-size: 22px;
+    .logo {
+      font-size: 24px;
       font-weight: 800;
       background: var(--gradient-primary);
       -webkit-background-clip: text;
@@ -74,62 +56,176 @@
       letter-spacing: -0.02em;
     }
 
-    .toolbar-center { flex: 1; display: flex; justify-content: center; padding: 0 24px; }
-
-    .toolbar-right { display: flex; gap: 12px; align-items: center; }
-
-    .mosaic-types {
+    .nav-links {
       display: flex;
-      gap: 8px;
-      background: var(--c-bg);
-      padding: 6px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--c-border-light);
+      gap: 24px;
     }
 
-    .type-btn {
+    .nav-links a {
+      color: var(--c-text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--c-text); }
+
+    /* 主工具区 */
+    .tool-section {
+      min-height: 100vh;
+      padding: 100px 40px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tool-container {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .tool-header {
+      text-align: center;
+    }
+
+    .tool-title {
+      font-size: 48px;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .tool-subtitle {
+      color: var(--c-text-secondary);
+      font-size: 16px;
+    }
+
+    /* 上传区 */
+    .upload-zone {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      border: 2px dashed var(--c-border);
+      border-radius: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--c-surface);
+    }
+
+    .upload-zone:hover {
+      border-color: var(--c-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+    }
+
+    .upload-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
       display: flex;
       align-items: center;
+      justify-content: center;
+    }
+
+    .upload-icon svg {
+      width: 32px;
+      height: 32px;
+      color: white;
+    }
+
+    .upload-text {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .upload-hint {
+      color: var(--c-text-secondary);
+      font-size: 14px;
+    }
+
+    /* 编辑器 */
+    .editor {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .editor.active { display: flex; }
+
+    .editor-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--c-surface);
+      border-radius: 16px;
+      border: 1px solid var(--c-border);
+    }
+
+    .effect-types {
+      display: flex;
       gap: 8px;
+    }
+
+    .effect-btn {
       padding: 10px 18px;
-      border: none;
-      border-radius: var(--radius);
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
       background: transparent;
       color: var(--c-text-secondary);
       cursor: pointer;
       font-size: 14px;
       font-weight: 500;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      white-space: nowrap;
-      font-family: var(--font-sans);
+      transition: all 0.2s ease;
+      font-family: inherit;
     }
 
-    .type-btn:hover { background: var(--c-surface); color: var(--c-primary); transform: translateY(-1px); }
-    .type-btn.active { background: var(--c-surface); color: var(--c-primary); box-shadow: var(--shadow); font-weight: 600; }
+    .effect-btn:hover {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: var(--c-accent);
+      color: var(--c-text);
+    }
+
+    .effect-btn.active {
+      background: var(--gradient-primary);
+      border-color: transparent;
+      color: white;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 12px;
+    }
 
     .action-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
       padding: 10px 18px;
       border: 1px solid var(--c-border);
-      border-radius: var(--radius);
+      border-radius: 12px;
       background: var(--c-surface);
       color: var(--c-text);
       cursor: pointer;
       font-size: 14px;
       font-weight: 500;
       transition: all 0.2s ease;
-      white-space: nowrap;
-      font-family: var(--font-sans);
+      font-family: inherit;
     }
 
     .action-btn:hover:not(:disabled) {
-      background: var(--c-primary-light);
-      border-color: var(--c-primary);
-      color: var(--c-primary);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-sm);
+      background: rgba(102, 126, 234, 0.1);
+      border-color: var(--c-accent);
     }
 
     .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -137,66 +233,62 @@
     .action-btn.primary {
       background: var(--gradient-primary);
       border: none;
-      color: #fff;
-      box-shadow: var(--shadow);
+      color: white;
     }
 
-    .action-btn.primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .action-btn.danger { color: #f5576c; }
 
-    .action-btn.danger { color: var(--c-accent); border-color: var(--c-border); }
-    .action-btn.danger:hover:not(:disabled) { background: var(--c-accent); color: #fff; border-color: var(--c-accent); }
+    .editor-main {
+      display: flex;
+      gap: 24px;
+    }
 
-    .main-area { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 64px); }
+    .canvas-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-surface);
+      border-radius: 16px;
+      border: 1px solid var(--c-border);
+      padding: 24px;
+      min-height: 400px;
+    }
+
+    .canvas-wrapper canvas {
+      max-width: 100%;
+      max-height: 500px;
+      border-radius: 8px;
+      cursor: crosshair;
+    }
 
     .settings-panel {
       width: 280px;
       padding: 24px;
       background: var(--c-surface);
-      border-right: 1px solid var(--c-border);
+      border-radius: 16px;
+      border: 1px solid var(--c-border);
       display: flex;
       flex-direction: column;
-      gap: 24px;
-      flex-shrink: 0;
-      overflow-y: auto;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .panel-header {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--c-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
+      gap: 20px;
     }
 
     .setting-group {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      padding: 16px;
-      background: var(--c-bg);
-      border-radius: var(--radius);
-      border: 1px solid var(--c-border-light);
+      gap: 8px;
     }
 
     .setting-label {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       font-size: 14px;
-      font-weight: 600;
-      color: var(--c-text);
+      font-weight: 500;
     }
 
     .setting-value {
-      font-size: 13px;
-      color: var(--c-primary);
-      font-weight: 700;
-      font-family: var(--font-mono);
-      background: var(--c-primary-light);
-      padding: 4px 10px;
-      border-radius: 6px;
+      color: var(--c-accent-light);
+      font-family: 'Space Grotesk', monospace;
     }
 
     .slider {
@@ -206,229 +298,437 @@
       height: 6px;
       border-radius: 3px;
       background: var(--c-border);
-      outline: none;
       cursor: pointer;
-      transition: background 0.2s;
     }
-
-    .slider:hover { background: #cbd5e1; }
 
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: var(--c-surface);
-      border: 3px solid var(--c-primary);
-      box-shadow: var(--shadow);
+      background: var(--c-accent);
       cursor: pointer;
-      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
     }
 
-    .slider::-webkit-slider-thumb:hover { transform: scale(1.15); box-shadow: var(--shadow-lg); }
-
-    .brush-preview-section {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 16px;
-      background: var(--c-bg);
-      border-radius: var(--radius);
-      border: 1px solid var(--c-border-light);
-    }
-
-    .brush-preview-label {
-      font-size: 12px;
-      color: var(--c-text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .brush-preview-box {
-      width: 100%;
-      height: 100px;
-      background: var(--c-surface);
-      border: 1px solid var(--c-border-light);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* 胶卷画廊 */
+    .gallery-section {
+      padding: 80px 0;
       overflow: hidden;
     }
 
-    .brush-preview-circle {
-      border-radius: 50%;
-      background: var(--gradient-primary);
-      transition: all 0.2s ease;
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding: 0 40px;
     }
 
-    .canvas-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
-      overflow: auto;
+    .gallery-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .gallery-subtitle {
+      color: var(--c-text-secondary);
+      font-size: 16px;
+    }
+
+    /* 胶卷容器 */
+    .film-strip-wrapper {
       position: relative;
-      background: 
-        radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(245, 87, 108, 0.03) 0%, transparent 50%),
-        var(--c-bg);
+      padding: 40px 0;
     }
 
-    .display-canvas {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-xl);
-      touch-action: none;
-    }
-
-    .brush-cursor {
-      position: fixed;
-      pointer-events: none;
-      border-radius: 50%;
-      border: 2px solid var(--c-primary);
-      background: rgba(102, 126, 234, 0.1);
-      transform: translate(-50%, -50%);
-      z-index: 1000;
-      transition: width 0.1s, height 0.1s;
-    }
-
-    .upload-zone {
+    .film-strip {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 520px;
-      max-width: 90%;
-      height: 360px;
-      border: 2px dashed var(--c-border);
-      border-radius: var(--radius-xl);
+      gap: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 40px 60px;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .film-strip::-webkit-scrollbar { display: none; }
+
+    /* 单帧胶片 */
+    .film-frame {
+      flex-shrink: 0;
+      width: 280px;
+      height: 200px;
+      position: relative;
       cursor: pointer;
-      transition: all 0.3s ease;
-      background: var(--c-surface);
-      position: relative;
-      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .upload-zone::before {
+    .film-frame:hover {
+      transform: scale(1.08);
+      z-index: 10;
+    }
+
+    /* 胶片齿孔 */
+    .film-frame::before,
+    .film-frame::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--gradient-primary);
+      top: -12px;
+      width: 100%;
+      height: 12px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 8px,
+        var(--c-surface) 8px,
+        var(--c-surface) 16px,
+        transparent 16px,
+        transparent 24px
+      );
+    }
+
+    .film-frame::after {
+      top: auto;
+      bottom: -12px;
+    }
+
+    .film-frame-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 2px solid var(--c-border);
+      background: var(--c-surface);
+      position: relative;
+    }
+
+    .film-frame:hover .film-frame-inner {
+      border-color: var(--c-accent);
+      box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+    }
+
+    .film-frame canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .film-frame-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
-    .upload-zone:hover { border-color: var(--c-primary); transform: translateY(-4px); box-shadow: var(--shadow-xl); }
-    .upload-zone:hover::before { opacity: 0.05; }
+    .film-frame:hover .film-frame-info { opacity: 1; }
 
-    .upload-text { font-size: 20px; font-weight: 600; margin: 0 0 12px; color: var(--c-text); position: relative; z-index: 1; }
-    .upload-hint { font-size: 14px; color: var(--c-text-muted); margin: 0; position: relative; z-index: 1; }
-
-    @media (max-width: 768px) {
-      .toolbar { flex-wrap: wrap; padding: 0 16px; height: auto; min-height: 64px; padding-top: 12px; padding-bottom: 12px; }
-      .toolbar-center { order: 3; flex-basis: 100%; justify-content: flex-start; padding: 12px 0 0 0; }
-      .mosaic-types { overflow-x: auto; }
-      .type-btn { padding: 8px 14px; font-size: 13px; }
-      .settings-panel { width: 240px; padding: 20px; }
-      .action-btn { padding: 8px 14px; font-size: 13px; }
+    .film-frame-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
-    @media (max-width: 480px) {
-      .settings-panel { width: 100%; flex-direction: row; flex-wrap: wrap; border-right: none; border-bottom: 1px solid var(--c-border); gap: 16px; padding: 16px; }
-      .main-area { flex-direction: column; }
-      .setting-group, .brush-preview-section { flex: 1; min-width: 140px; }
+    .film-frame-params {
+      font-size: 11px;
+      color: var(--c-text-secondary);
+    }
+
+    /* 胶片连接条 */
+    .film-connector {
+      flex-shrink: 0;
+      width: 24px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .film-connector::before {
+      content: '';
+      width: 2px;
+      height: 100%;
+      background: var(--c-border);
+    }
+
+    /* 弹窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      max-width: 900px;
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .modal-image {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-image canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .modal-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+    }
+
+    .modal-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal-description {
+      color: var(--c-text-secondary);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .modal-params {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--c-surface);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid var(--c-border);
+      min-width: 200px;
+    }
+
+    .param-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .param-label {
+      color: var(--c-text-secondary);
+      font-size: 14px;
+    }
+
+    .param-value {
+      font-weight: 600;
+      font-family: 'Space Grotesk', monospace;
+      color: var(--c-accent-light);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 32px;
+      right: 32px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      color: var(--c-text);
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: var(--c-accent);
+      border-color: var(--c-accent);
+      transform: rotate(90deg);
+    }
+
+    /* 页脚 */
+    .footer {
+      padding: 40px;
+      text-align: center;
+      border-top: 1px solid var(--c-border);
+      color: var(--c-text-secondary);
+      font-size: 14px;
+    }
+
+    /* 画笔光标 */
+    .brush-cursor {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      border: 2px solid var(--c-accent);
+      background: rgba(102, 126, 234, 0.2);
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      display: none;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .header { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .tool-section { padding: 80px 20px 40px; }
+      .tool-title { font-size: 36px; }
+      .editor-main { flex-direction: column; }
+      .settings-panel { width: 100%; }
+      .film-frame { width: 200px; height: 140px; }
+      .modal-details { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <div class="mosaic-app">
-    <header class="toolbar">
-      <div class="toolbar-left">
-        <h1 class="app-title">MOSAIC</h1>
-        <a href="gallery.html" class="action-btn" style="text-decoration: none;">画廊</a>
+  <header class="header">
+    <div class="logo">MOSAIC</div>
+    <nav class="nav-links">
+      <a href="#tool">开始使用</a>
+      <a href="#gallery">效果画廊</a>
+      <a href="https://github.com/fifiiiiili/mosaic-tool" target="_blank">GitHub</a>
+    </nav>
+  </header>
+
+  <!-- 工具区 -->
+  <section class="tool-section" id="tool">
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1 class="tool-title">MOSAIC</h1>
+        <p class="tool-subtitle">浏览器端图片打码工具，五种效果，无限可能</p>
       </div>
-      <div class="toolbar-center">
-        <div class="mosaic-types">
-          <button class="type-btn active" data-type="pixelate">像素化</button>
-          <button class="type-btn" data-type="blur">高斯模糊</button>
-          <button class="type-btn" data-type="frosted">毛玻璃</button>
-          <button class="type-btn" data-type="colorBlock">色块填充</button>
-          <button class="type-btn" data-type="scatter">散射</button>
+
+      <!-- 上传区 -->
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
         </div>
+        <p class="upload-text">点击或拖拽上传图片</p>
+        <p class="upload-hint">支持 JPG / PNG / WebP</p>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
       </div>
-      <div class="toolbar-right">
-        <button class="action-btn" id="btn-undo" disabled>↩ 撤销</button>
-        <button class="action-btn" id="btn-redo" disabled>↪ 恢复</button>
-        <button class="action-btn danger" id="btn-clear"> 清除</button>
-        <button class="action-btn" id="btn-close">✕ 关闭</button>
-        <button class="action-btn primary" id="btn-export">↓ 导出</button>
-      </div>
-    </header>
 
-    <div class="main-area">
-      <aside class="settings-panel" id="settings-panel" style="display: none;">
-        <div class="panel-header">效果设置</div>
-        <div class="setting-group">
-          <label class="setting-label">
-            <span>效果强度</span>
-            <span class="setting-value" id="intensity-value">70%</span>
-          </label>
-          <input type="range" id="intensity" min="0" max="1" step="0.01" value="0.7" class="slider">
-        </div>
-
-        <div class="panel-header">画笔设置</div>
-        <div class="setting-group">
-          <label class="setting-label">
-            <span>画笔大小</span>
-            <span class="setting-value" id="brush-size-value">40px</span>
-          </label>
-          <input type="range" id="brush-size" min="5" max="200" step="1" value="40" class="slider">
-        </div>
-
-        <div class="setting-group">
-          <label class="setting-label">
-            <span>硬度</span>
-            <span class="setting-value" id="hardness-value">80%</span>
-          </label>
-          <input type="range" id="hardness" min="0" max="1" step="0.01" value="0.8" class="slider">
-        </div>
-
-        <div class="setting-group">
-          <label class="setting-label">
-            <span>透明度</span>
-            <span class="setting-value" id="opacity-value">100%</span>
-          </label>
-          <input type="range" id="opacity" min="0.05" max="1" step="0.01" value="1" class="slider">
-        </div>
-
-        <div class="brush-preview-section">
-          <div class="brush-preview-label">画笔预览</div>
-          <div class="brush-preview-box">
-            <div class="brush-preview-circle" id="brush-preview"></div>
+      <!-- 编辑器 -->
+      <div class="editor" id="editor">
+        <div class="editor-toolbar">
+          <div class="effect-types">
+            <button class="effect-btn active" data-type="pixelate">像素化</button>
+            <button class="effect-btn" data-type="blur">高斯模糊</button>
+            <button class="effect-btn" data-type="frosted">毛玻璃</button>
+            <button class="effect-btn" data-type="colorBlock">色块填充</button>
+            <button class="effect-btn" data-type="scatter">散射</button>
+          </div>
+          <div class="action-btns">
+            <button class="action-btn" id="btnUndo" disabled>撤销</button>
+            <button class="action-btn" id="btnRedo" disabled>恢复</button>
+            <button class="action-btn danger" id="btnClear">清除</button>
+            <button class="action-btn" id="btnClose">关闭</button>
+            <button class="action-btn primary" id="btnExport">导出</button>
           </div>
         </div>
-      </aside>
 
-      <div class="canvas-container" id="canvas-container">
-        <div class="upload-zone" id="upload-zone">
-          <p class="upload-text">点击或拖拽上传图片</p>
-          <p class="upload-hint">支持 JPG / PNG / WebP</p>
-          <input type="file" id="file-input" accept="image/*" style="display: none;">
+        <div class="editor-main">
+          <div class="canvas-wrapper">
+            <canvas id="displayCanvas"></canvas>
+          </div>
+          <div class="settings-panel">
+            <div class="setting-group">
+              <label class="setting-label">
+                <span>效果强度</span>
+                <span class="setting-value" id="intensityValue">70%</span>
+              </label>
+              <input type="range" id="intensity" min="0" max="1" step="0.01" value="0.7" class="slider">
+            </div>
+            <div class="setting-group">
+              <label class="setting-label">
+                <span>画笔大小</span>
+                <span class="setting-value" id="brushSizeValue">40px</span>
+              </label>
+              <input type="range" id="brushSize" min="5" max="200" step="1" value="40" class="slider">
+            </div>
+            <div class="setting-group">
+              <label class="setting-label">
+                <span>硬度</span>
+                <span class="setting-value" id="hardnessValue">80%</span>
+              </label>
+              <input type="range" id="hardness" min="0" max="1" step="0.01" value="0.8" class="slider">
+            </div>
+            <div class="setting-group">
+              <label class="setting-label">
+                <span>透明度</span>
+                <span class="setting-value" id="opacityValue">100%</span>
+              </label>
+              <input type="range" id="opacity" min="0.05" max="1" step="0.01" value="1" class="slider">
+            </div>
+          </div>
         </div>
-        <canvas id="display-canvas" class="display-canvas" style="display: none;"></canvas>
       </div>
     </div>
+  </section>
 
-    <div class="brush-cursor" id="brush-cursor" style="display: none;"></div>
+  <!-- 胶卷画廊 -->
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-header">
+      <h2 class="gallery-title">效果画廊</h2>
+      <p class="gallery-subtitle">滑动浏览不同效果组合，点击查看大图</p>
+    </div>
+    <div class="film-strip-wrapper">
+      <div class="film-strip" id="filmStrip"></div>
+    </div>
+  </section>
+
+  <!-- 弹窗 -->
+  <div class="modal-overlay" id="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <div class="modal-content">
+      <div class="modal-image">
+        <canvas id="modalCanvas"></canvas>
+      </div>
+      <div class="modal-details">
+        <div>
+          <h3 class="modal-title" id="modalTitle"></h3>
+          <p class="modal-description" id="modalDesc"></p>
+        </div>
+        <div class="modal-params" id="modalParams"></div>
+      </div>
+    </div>
   </div>
 
+  <footer class="footer">
+    <p>MOSAIC - 马赛克打码工具 | <a href="https://github.com/fifiiiiili/mosaic-tool" target="_blank" style="color: var(--c-accent-light); text-decoration: none;">GitHub</a></p>
+  </footer>
+
+  <div class="brush-cursor" id="brushCursor"></div>
+
   <script>
-    // 马赛克效果实现
+    // 马赛克效果
     const MosaicEffects = {
       pixelate(source, w, h, intensity) {
         const canvas = document.createElement('canvas');
@@ -440,12 +740,9 @@
         const smallH = Math.max(1, Math.round(h * scale));
         const smallCanvas = document.createElement('canvas');
         smallCanvas.width = smallW; smallCanvas.height = smallH;
-        const smallCtx = smallCanvas.getContext('2d');
-        smallCtx.imageSmoothingEnabled = true;
-        smallCtx.drawImage(source, 0, 0, smallW, smallH);
+        smallCanvas.getContext('2d').drawImage(source, 0, 0, smallW, smallH);
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(smallCanvas, 0, 0, smallW, smallH, 0, 0, w, h);
-        ctx.imageSmoothingEnabled = true;
         return canvas;
       },
       blur(source, w, h, intensity) {
@@ -457,12 +754,7 @@
         const smallH = Math.max(1, Math.round(h * factor));
         const smallCanvas = document.createElement('canvas');
         smallCanvas.width = smallW; smallCanvas.height = smallH;
-        const smallCtx = smallCanvas.getContext('2d');
-        smallCtx.imageSmoothingEnabled = true;
-        smallCtx.imageSmoothingQuality = 'high';
-        smallCtx.drawImage(source, 0, 0, smallW, smallH);
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+        smallCanvas.getContext('2d').drawImage(source, 0, 0, smallW, smallH);
         ctx.drawImage(smallCanvas, 0, 0, smallW, smallH, 0, 0, w, h);
         return canvas;
       },
@@ -475,12 +767,7 @@
         const smallH = Math.max(1, Math.round(h * factor));
         const smallCanvas = document.createElement('canvas');
         smallCanvas.width = smallW; smallCanvas.height = smallH;
-        const smallCtx = smallCanvas.getContext('2d');
-        smallCtx.imageSmoothingEnabled = true;
-        smallCtx.imageSmoothingQuality = 'high';
-        smallCtx.drawImage(source, 0, 0, smallW, smallH);
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
+        smallCanvas.getContext('2d').drawImage(source, 0, 0, smallW, smallH);
         ctx.drawImage(smallCanvas, 0, 0, smallW, smallH, 0, 0, w, h);
         const brightness = 1 + intensity * 0.35;
         const saturation = 1 - intensity * 0.5;
@@ -509,9 +796,8 @@
         const blockSize = Math.max(4, Math.round(8 + intensity * 60));
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = w; tempCanvas.height = h;
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.drawImage(source, 0, 0);
-        const imgData = tempCtx.getImageData(0, 0, w, h);
+        tempCanvas.getContext('2d').drawImage(source, 0, 0);
+        const imgData = tempCanvas.getContext('2d').getImageData(0, 0, w, h);
         const data = imgData.data;
         for (let by = 0; by < h; by += blockSize) {
           for (let bx = 0; bx < w; bx += blockSize) {
@@ -538,9 +824,8 @@
         const scatterRange = Math.round(intensity * blockSize * 3);
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = w; tempCanvas.height = h;
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.drawImage(source, 0, 0);
-        const imgData = tempCtx.getImageData(0, 0, w, h);
+        tempCanvas.getContext('2d').drawImage(source, 0, 0);
+        const imgData = tempCanvas.getContext('2d').getImageData(0, 0, w, h);
         for (let by = 0; by < h; by += blockSize) {
           for (let bx = 0; bx < w; bx += blockSize) {
             const bw = Math.min(blockSize, w - bx);
@@ -560,8 +845,7 @@
             }
             const blockCanvas = document.createElement('canvas');
             blockCanvas.width = bw; blockCanvas.height = bh;
-            const blockCtx = blockCanvas.getContext('2d');
-            blockCtx.putImageData(blockData, 0, 0);
+            blockCanvas.getContext('2d').putImageData(blockData, 0, 0);
             ctx.drawImage(blockCanvas, bx + dx, by + dy);
           }
         }
@@ -569,11 +853,145 @@
       }
     };
 
-    function applyMosaicEffect(source, w, h, type, intensity) {
-      return MosaicEffects[type](source, w, h, intensity);
+    // 效果配置
+    const effects = [
+      { type: 'pixelate', name: '像素化', desc: '经典马赛克效果，将图像分割成像素方块', intensity: 0.7, brushSize: 40, hardness: 0.8, opacity: 1 },
+      { type: 'pixelate', name: '像素化', desc: '轻度像素化，保留更多细节', intensity: 0.3, brushSize: 60, hardness: 0.9, opacity: 1 },
+      { type: 'pixelate', name: '像素化', desc: '重度像素化，完全模糊细节', intensity: 0.9, brushSize: 30, hardness: 0.7, opacity: 1 },
+      { type: 'blur', name: '高斯模糊', desc: '柔和的模糊效果，自然过渡', intensity: 0.6, brushSize: 50, hardness: 0.8, opacity: 1 },
+      { type: 'blur', name: '高斯模糊', desc: '轻度模糊，保持可辨识', intensity: 0.3, brushSize: 80, hardness: 0.9, opacity: 1 },
+      { type: 'blur', name: '高斯模糊', desc: '强烈模糊，完全隐藏', intensity: 0.9, brushSize: 40, hardness: 0.7, opacity: 1 },
+      { type: 'frosted', name: '毛玻璃', desc: '模糊加提亮，类似毛玻璃效果', intensity: 0.5, brushSize: 45, hardness: 0.8, opacity: 1 },
+      { type: 'frosted', name: '毛玻璃', desc: '柔和毛玻璃，半透明质感', intensity: 0.3, brushSize: 70, hardness: 0.9, opacity: 1 },
+      { type: 'frosted', name: '毛玻璃', desc: '强烈毛玻璃，高度模糊', intensity: 0.8, brushSize: 35, hardness: 0.7, opacity: 1 },
+      { type: 'colorBlock', name: '色块填充', desc: '将区域填充为平均色块', intensity: 0.6, brushSize: 55, hardness: 0.8, opacity: 1 },
+      { type: 'colorBlock', name: '色块填充', desc: '大色块，抽象艺术感', intensity: 0.9, brushSize: 40, hardness: 0.9, opacity: 1 },
+      { type: 'scatter', name: '散射', desc: '随机打散像素块', intensity: 0.5, brushSize: 50, hardness: 0.8, opacity: 1 },
+      { type: 'scatter', name: '散射', desc: '强烈散射，完全打乱', intensity: 0.8, brushSize: 30, hardness: 0.7, opacity: 1 },
+    ];
+
+    // 创建示例图片
+    function createSampleImage(seed = 0) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 400;
+      canvas.height = 300;
+      const ctx = canvas.getContext('2d');
+      
+      // 不同种子生成不同图案
+      const hue1 = (seed * 47) % 360;
+      const hue2 = (hue1 + 120) % 360;
+      
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, `hsl(${hue1}, 70%, 60%)`);
+      gradient.addColorStop(0.5, `hsl(${(hue1 + 60) % 360}, 60%, 50%)`);
+      gradient.addColorStop(1, `hsl(${hue2}, 70%, 60%)`);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // 添加图形
+      ctx.fillStyle = `hsla(${hue1}, 80%, 80%, 0.3)`;
+      ctx.beginPath();
+      ctx.arc(100 + seed * 10, 100, 60, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = `hsla(${hue2}, 80%, 80%, 0.2)`;
+      ctx.beginPath();
+      ctx.arc(300 - seed * 5, 200, 80, 0, Math.PI * 2);
+      ctx.fill();
+      
+      ctx.fillStyle = `hsla(0, 0%, 0%, 0.2)`;
+      ctx.fillRect(150 + seed * 3, 50, 100, 200);
+      
+      return canvas;
     }
 
-    // 应用状态
+    // 初始化胶卷画廊
+    function initFilmGallery() {
+      const strip = document.getElementById('filmStrip');
+      
+      effects.forEach((effect, index) => {
+        // 添加连接条（除了第一个）
+        if (index > 0) {
+          const connector = document.createElement('div');
+          connector.className = 'film-connector';
+          strip.appendChild(connector);
+        }
+        
+        const frame = document.createElement('div');
+        frame.className = 'film-frame';
+        
+        const inner = document.createElement('div');
+        inner.className = 'film-frame-inner';
+        
+        // 创建效果画布
+        const sampleImage = createSampleImage(index);
+        const effectCanvas = MosaicEffects[effect.type](sampleImage, 400, 300, effect.intensity);
+        inner.appendChild(effectCanvas);
+        
+        // 信息面板
+        const info = document.createElement('div');
+        info.className = 'film-frame-info';
+        info.innerHTML = `
+          <div class="film-frame-title">${effect.name}</div>
+          <div class="film-frame-params">强度: ${Math.round(effect.intensity * 100)}% | 画笔: ${effect.brushSize}px</div>
+        `;
+        inner.appendChild(info);
+        
+        frame.appendChild(inner);
+        
+        // 点击事件
+        frame.addEventListener('click', () => openModal(effect, effectCanvas));
+        
+        strip.appendChild(frame);
+      });
+    }
+
+    // 弹窗
+    function openModal(effect, sourceCanvas) {
+      const modal = document.getElementById('modal');
+      const modalCanvas = document.getElementById('modalCanvas');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDesc = document.getElementById('modalDesc');
+      const modalParams = document.getElementById('modalParams');
+      
+      modalCanvas.width = sourceCanvas.width;
+      modalCanvas.height = sourceCanvas.height;
+      modalCanvas.getContext('2d').drawImage(sourceCanvas, 0, 0);
+      
+      modalTitle.textContent = effect.name;
+      modalDesc.textContent = effect.desc;
+      
+      modalParams.innerHTML = `
+        <div class="param-item">
+          <span class="param-label">效果类型</span>
+          <span class="param-value">${effect.type}</span>
+        </div>
+        <div class="param-item">
+          <span class="param-label">效果强度</span>
+          <span class="param-value">${Math.round(effect.intensity * 100)}%</span>
+        </div>
+        <div class="param-item">
+          <span class="param-label">画笔大小</span>
+          <span class="param-value">${effect.brushSize}px</span>
+        </div>
+        <div class="param-item">
+          <span class="param-label">硬度</span>
+          <span class="param-value">${Math.round(effect.hardness * 100)}%</span>
+        </div>
+        <div class="param-item">
+          <span class="param-label">透明度</span>
+          <span class="param-value">${Math.round(effect.opacity * 100)}%</span>
+        </div>
+      `;
+      
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    // 工具编辑器
     let imageLoaded = false;
     let imageName = '';
     let mosaicType = 'pixelate';
@@ -582,39 +1000,35 @@
     let hardness = 0.8;
     let opacity = 1;
     let isDrawing = false;
-    let canUndo = false;
-    let canRedo = false;
-
-    // Canvas 引用
-    const displayCanvas = document.getElementById('display-canvas');
-    const originalCanvas = document.createElement('canvas');
-    const processedCanvas = document.createElement('canvas');
-    const maskCanvas = document.createElement('canvas');
-    const tempCanvas = document.createElement('canvas');
-
-    let canvasScale = 1;
     let lastPoint = null;
     let history = [];
     let historyIndex = -1;
 
-    // DOM 元素
-    const uploadZone = document.getElementById('upload-zone');
-    const fileInput = document.getElementById('file-input');
-    const settingsPanel = document.getElementById('settings-panel');
-    const brushCursor = document.getElementById('brush-cursor');
-    const brushPreview = document.getElementById('brush-preview');
+    const displayCanvas = document.getElementById('displayCanvas');
+    const originalCanvas = document.createElement('canvas');
+    const processedCanvas = document.createElement('canvas');
+    const maskCanvas = document.createElement('canvas');
+    const tempCanvas = document.createElement('canvas');
+    const brushCursor = document.getElementById('brushCursor');
 
-    // 渲染
     function render() {
       const ctx = displayCanvas.getContext('2d');
       ctx.clearRect(0, 0, displayCanvas.width, displayCanvas.height);
       ctx.drawImage(processedCanvas, 0, 0);
-      updateCanvasScale();
     }
 
-    function updateCanvasScale() {
-      const rect = displayCanvas.getBoundingClientRect();
-      canvasScale = rect.width / displayCanvas.width;
+    function blendWithOpacity(effectCanvas, source, opacity) {
+      if (opacity >= 0.99) return effectCanvas;
+      if (opacity <= 0.01) return source;
+      const w = effectCanvas.width;
+      const h = effectCanvas.height;
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(source, 0, 0);
+      ctx.globalAlpha = opacity;
+      ctx.drawImage(effectCanvas, 0, 0);
+      return canvas;
     }
 
     function compositeToProcessed() {
@@ -622,33 +1036,33 @@
       const h = processedCanvas.height;
       const tempCtx = tempCanvas.getContext('2d');
       const processedCtx = processedCanvas.getContext('2d');
-
-      const effectResult = applyMosaicEffect(originalCanvas, w, h, mosaicType, intensity);
-
+      
+      const effectResult = MosaicEffects[mosaicType](originalCanvas, w, h, intensity);
+      const blended = blendWithOpacity(effectResult, originalCanvas, opacity);
+      
       tempCtx.clearRect(0, 0, w, h);
-      tempCtx.drawImage(effectResult, 0, 0);
+      tempCtx.drawImage(blended, 0, 0);
       tempCtx.globalCompositeOperation = 'destination-in';
       tempCtx.drawImage(maskCanvas, 0, 0);
       tempCtx.globalCompositeOperation = 'source-over';
-
+      
       processedCtx.drawImage(tempCanvas, 0, 0);
     }
 
     function drawCircleOnMask(x, y) {
       const maskCtx = maskCanvas.getContext('2d');
       const r = brushSize / 2;
-
       maskCtx.save();
       if (hardness >= 0.95) {
-        maskCtx.globalAlpha = opacity;
+        maskCtx.globalAlpha = 1;
         maskCtx.fillStyle = '#ffffff';
         maskCtx.beginPath();
         maskCtx.arc(x, y, r, 0, Math.PI * 2);
         maskCtx.fill();
       } else {
         const grad = maskCtx.createRadialGradient(x, y, 0, x, y, r);
-        grad.addColorStop(0, `rgba(255,255,255,${opacity})`);
-        grad.addColorStop(Math.min(hardness, 0.99), `rgba(255,255,255,${opacity})`);
+        grad.addColorStop(0, 'rgba(255,255,255,1)');
+        grad.addColorStop(Math.min(hardness, 0.99), 'rgba(255,255,255,1)');
         grad.addColorStop(1, 'rgba(255,255,255,0)');
         maskCtx.fillStyle = grad;
         maskCtx.beginPath();
@@ -664,12 +1078,9 @@
       const dist = Math.sqrt(dx * dx + dy * dy);
       const step = Math.max(1, brushSize * 0.2);
       const steps = Math.max(1, Math.ceil(dist / step));
-
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
-        const x = fromX + dx * t;
-        const y = fromY + dy * t;
-        drawCircleOnMask(x, y);
+        drawCircleOnMask(fromX + dx * t, fromY + dy * t);
       }
     }
 
@@ -678,10 +1089,10 @@
       const h = displayCanvas.height;
       const ctx = displayCanvas.getContext('2d');
       const tempCtx = tempCanvas.getContext('2d');
-
+      
       ctx.clearRect(0, 0, w, h);
       ctx.drawImage(processedCanvas, 0, 0);
-
+      
       const maskCtx = maskCanvas.getContext('2d');
       const maskData = maskCtx.getImageData(0, 0, w, h);
       let hasMask = false;
@@ -689,15 +1100,16 @@
         if (maskData.data[i] > 0) { hasMask = true; break; }
       }
       if (!hasMask) return;
-
-      const effectResult = applyMosaicEffect(originalCanvas, w, h, mosaicType, intensity);
-
+      
+      const effectResult = MosaicEffects[mosaicType](originalCanvas, w, h, intensity);
+      const blended = blendWithOpacity(effectResult, originalCanvas, opacity);
+      
       tempCtx.clearRect(0, 0, w, h);
-      tempCtx.drawImage(effectResult, 0, 0);
+      tempCtx.drawImage(blended, 0, 0);
       tempCtx.globalCompositeOperation = 'destination-in';
       tempCtx.drawImage(maskCanvas, 0, 0);
       tempCtx.globalCompositeOperation = 'source-over';
-
+      
       ctx.drawImage(tempCanvas, 0, 0);
     }
 
@@ -710,30 +1122,29 @@
         w = Math.round(w * scale);
         h = Math.round(h * scale);
       }
-
+      
       originalCanvas.width = w; originalCanvas.height = h;
       originalCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
-
+      
       processedCanvas.width = w; processedCanvas.height = h;
       processedCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
-
+      
       maskCanvas.width = w; maskCanvas.height = h;
       tempCanvas.width = w; tempCanvas.height = h;
-
+      
       displayCanvas.width = w; displayCanvas.height = h;
-
+      
       history = [];
       historyIndex = -1;
       updateUndoRedoButtons();
-
+      
       imageLoaded = true;
       imageName = name;
       lastPoint = null;
-
-      uploadZone.style.display = 'none';
-      displayCanvas.style.display = 'block';
-      settingsPanel.style.display = 'flex';
-
+      
+      document.getElementById('uploadZone').style.display = 'none';
+      document.getElementById('editor').classList.add('active');
+      
       render();
       saveToHistory();
     }
@@ -741,36 +1152,28 @@
     function saveToHistory() {
       const ctx = processedCanvas.getContext('2d');
       const imageData = ctx.getImageData(0, 0, processedCanvas.width, processedCanvas.height);
-
       history = history.slice(0, historyIndex + 1);
       history.push(imageData);
       historyIndex = history.length - 1;
-
       if (history.length > 30) {
         history.shift();
         historyIndex--;
       }
-
       updateUndoRedoButtons();
     }
 
     function restoreFromHistory(index) {
       const imageData = history[index];
       if (!imageData) return;
-
-      const ctx = processedCanvas.getContext('2d');
-      ctx.putImageData(imageData, 0, 0);
+      processedCanvas.getContext('2d').putImageData(imageData, 0, 0);
       historyIndex = index;
-
       updateUndoRedoButtons();
       render();
     }
 
     function updateUndoRedoButtons() {
-      canUndo = historyIndex > 0;
-      canRedo = historyIndex < history.length - 1;
-      document.getElementById('btn-undo').disabled = !canUndo;
-      document.getElementById('btn-redo').disabled = !canRedo;
+      document.getElementById('btnUndo').disabled = historyIndex <= 0;
+      document.getElementById('btnRedo').disabled = historyIndex >= history.length - 1;
     }
 
     function getCanvasPos(e) {
@@ -778,16 +1181,8 @@
       const scaleX = displayCanvas.width / rect.width;
       const scaleY = displayCanvas.height / rect.height;
       const displayScale = rect.width / displayCanvas.width;
-
-      let clientX, clientY;
-      if (e.touches) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-      } else {
-        clientX = e.clientX;
-        clientY = e.clientY;
-      }
-
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       return {
         x: (clientX - rect.left) * scaleX,
         y: (clientY - rect.top) * scaleY,
@@ -801,38 +1196,30 @@
       if (!imageLoaded) return;
       e.preventDefault();
       isDrawing = true;
-
       const pos = getCanvasPos(e);
       if (!pos) return;
-
       maskCanvas.getContext('2d').clearRect(0, 0, maskCanvas.width, maskCanvas.height);
       drawCircleOnMask(pos.x, pos.y);
       lastPoint = { x: pos.x, y: pos.y };
-
       brushCursor.style.display = 'block';
       brushCursor.style.left = pos.clientX + 'px';
       brushCursor.style.top = pos.clientY + 'px';
       brushCursor.style.width = (brushSize * pos.displayScale) + 'px';
       brushCursor.style.height = (brushSize * pos.displayScale) + 'px';
-
       renderWithMask();
     }
 
     function handlePointerMove(e) {
       if (!imageLoaded) return;
       e.preventDefault();
-
       const pos = getCanvasPos(e);
       if (!pos) return;
-
       brushCursor.style.display = 'block';
       brushCursor.style.left = pos.clientX + 'px';
       brushCursor.style.top = pos.clientY + 'px';
       brushCursor.style.width = (brushSize * pos.displayScale) + 'px';
       brushCursor.style.height = (brushSize * pos.displayScale) + 'px';
-
       if (!isDrawing) return;
-
       if (lastPoint) {
         drawStrokeOnMask(lastPoint.x, lastPoint.y, pos.x, pos.y);
       } else {
@@ -854,8 +1241,8 @@
     }
 
     // 事件绑定
-    uploadZone.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', (e) => {
+    document.getElementById('uploadZone').addEventListener('click', () => document.getElementById('fileInput').click());
+    document.getElementById('fileInput').addEventListener('change', (e) => {
       const file = e.target.files[0];
       if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
@@ -868,8 +1255,8 @@
       }
     });
 
-    document.getElementById('canvas-container').addEventListener('dragover', (e) => e.preventDefault());
-    document.getElementById('canvas-container').addEventListener('drop', (e) => {
+    document.querySelector('.canvas-wrapper').addEventListener('dragover', (e) => e.preventDefault());
+    document.querySelector('.canvas-wrapper').addEventListener('drop', (e) => {
       e.preventDefault();
       const file = e.dataTransfer.files[0];
       if (file && file.type.startsWith('image/')) {
@@ -886,84 +1273,69 @@
     displayCanvas.addEventListener('mousedown', handlePointerDown);
     displayCanvas.addEventListener('mousemove', handlePointerMove);
     displayCanvas.addEventListener('mouseup', handlePointerUp);
-    displayCanvas.addEventListener('mouseleave', handlePointerUp);
+    displayCanvas.addEventListener('mouseleave', () => {
+      handlePointerUp();
+      brushCursor.style.display = 'none';
+    });
     displayCanvas.addEventListener('mouseenter', () => brushCursor.style.display = 'block');
-    displayCanvas.addEventListener('mouseleave', () => brushCursor.style.display = 'none');
 
-    // 类型按钮
-    document.querySelectorAll('.type-btn').forEach(btn => {
+    document.querySelectorAll('.effect-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.effect-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         mosaicType = btn.dataset.type;
       });
     });
 
-    // 滑块
     document.getElementById('intensity').addEventListener('input', (e) => {
       intensity = parseFloat(e.target.value);
-      document.getElementById('intensity-value').textContent = Math.round(intensity * 100) + '%';
+      document.getElementById('intensityValue').textContent = Math.round(intensity * 100) + '%';
     });
 
-    document.getElementById('brush-size').addEventListener('input', (e) => {
+    document.getElementById('brushSize').addEventListener('input', (e) => {
       brushSize = parseInt(e.target.value);
-      document.getElementById('brush-size-value').textContent = brushSize + 'px';
-      updateBrushPreview();
+      document.getElementById('brushSizeValue').textContent = brushSize + 'px';
     });
 
     document.getElementById('hardness').addEventListener('input', (e) => {
       hardness = parseFloat(e.target.value);
-      document.getElementById('hardness-value').textContent = Math.round(hardness * 100) + '%';
-      updateBrushPreview();
+      document.getElementById('hardnessValue').textContent = Math.round(hardness * 100) + '%';
     });
 
     document.getElementById('opacity').addEventListener('input', (e) => {
       opacity = parseFloat(e.target.value);
-      document.getElementById('opacity-value').textContent = Math.round(opacity * 100) + '%';
-      updateBrushPreview();
+      document.getElementById('opacityValue').textContent = Math.round(opacity * 100) + '%';
     });
 
-    function updateBrushPreview() {
-      const size = Math.min(brushSize, 70);
-      brushPreview.style.width = size + 'px';
-      brushPreview.style.height = size + 'px';
-      brushPreview.style.opacity = opacity;
-      brushPreview.style.filter = `blur(${(1 - hardness) * brushSize * 0.15}px)`;
-    }
-
-    // 按钮
-    document.getElementById('btn-undo').addEventListener('click', () => {
+    document.getElementById('btnUndo').addEventListener('click', () => {
       if (historyIndex > 0) restoreFromHistory(historyIndex - 1);
     });
 
-    document.getElementById('btn-redo').addEventListener('click', () => {
+    document.getElementById('btnRedo').addEventListener('click', () => {
       if (historyIndex < history.length - 1) restoreFromHistory(historyIndex + 1);
     });
 
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      const ctx = processedCanvas.getContext('2d');
-      ctx.clearRect(0, 0, processedCanvas.width, processedCanvas.height);
-      ctx.drawImage(originalCanvas, 0, 0);
+    document.getElementById('btnClear').addEventListener('click', () => {
+      processedCanvas.getContext('2d').clearRect(0, 0, processedCanvas.width, processedCanvas.height);
+      processedCanvas.getContext('2d').drawImage(originalCanvas, 0, 0);
       maskCanvas.getContext('2d').clearRect(0, 0, maskCanvas.width, maskCanvas.height);
       saveToHistory();
       render();
     });
 
-    document.getElementById('btn-close').addEventListener('click', () => {
+    document.getElementById('btnClose').addEventListener('click', () => {
       imageLoaded = false;
       imageName = '';
       history = [];
       historyIndex = -1;
       updateUndoRedoButtons();
       lastPoint = null;
-
-      uploadZone.style.display = 'flex';
-      displayCanvas.style.display = 'none';
-      settingsPanel.style.display = 'none';
+      document.getElementById('uploadZone').style.display = 'block';
+      document.getElementById('editor').classList.remove('active');
       brushCursor.style.display = 'none';
     });
 
-    document.getElementById('btn-export').addEventListener('click', () => {
+    document.getElementById('btnExport').addEventListener('click', () => {
       displayCanvas.toBlob((blob) => {
         if (!blob) return;
         const url = URL.createObjectURL(blob);
@@ -976,7 +1348,11 @@
       }, 'image/png');
     });
 
-    // 键盘快捷键
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         e.preventDefault();
@@ -988,11 +1364,8 @@
       }
     });
 
-    // 窗口 resize
-    window.addEventListener('resize', updateCanvasScale);
-
-    // 初始化画笔预览
-    updateBrushPreview();
+    // 初始化
+    initFilmGallery();
   </script>
 </body>
 </html>
